@@ -38,7 +38,15 @@ node("android"){
 //    }
 // }
 
- stage("Archive"){
+  stage("Kryptowire"){
+      try {
+          kwSubmit filePath: "app/build/outputs/apk/${params.BUILD_CONFIG}/app-${params.BUILD_CONFIG}.apk", platform: 'android'
+      } catch(Error e) {
+          e.printStackTrace()
+      }
+  }
+
+  stage("Archive"){
     if (params.BUILD_CONFIG == 'release') {
         archiveArtifacts artifacts: 'app/build/outputs/apk/**/app-release.apk', excludes: 'app/build/outputs/apk/*-unaligned.apk'
     } else {
